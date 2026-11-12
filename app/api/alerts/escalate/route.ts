@@ -28,7 +28,7 @@ export async function POST(req: Request) {
   }
 
   const stage = (body as { stage?: unknown } | null)?.stage;
-  if (stage !== "NOTIFY" && stage !== "URGENT") {
+  if (stage !== "NOTIFY" && stage !== "URGENT" && stage !== "OK") {
     return NextResponse.json({ error: "stage invalide" }, { status: 400 });
   }
 
@@ -50,17 +50,28 @@ export async function POST(req: Request) {
           priority: 4,
           tags: ["warning"],
         }
-      : {
-          title: "URGENT - somnolence",
-          message: `Toujours aucune réaction du conducteur (${time}). Appelez-le maintenant.`,
-          priority: 5,
-          tags: ["rotating_light"],
-        };
+      : stage === "URGENT"
+        ? {
+            title: "URGENT - somnolence",
+            message: `Toujours aucune réaction du conducteur (${time}). Appelez-le maintenant.`,
+            priority: 5,
+            tags: ["rotating_light"],
+          }
+        : {
+            title: "Conducteur réveillé",
+            message: `Le conducteur confirme qu'il va bien (${time}).`,
+            priority: 3,
+            tags: ["white_check_mark"],
+          };
+
+  // TEMPORAIRE (à supprimer après le test) : affiche ton canal dans le terminal
+  console.log("ntfy topic:", String(user.ntfy_topic));
 
   // 5. Envoi au canal de CET utilisateur
   try {
     await sendNtfy(String(user.ntfy_topic), msg);
-  } catch {
+  } catch (err) {
+    console.error("ntfy error:", stage, err);
     return NextResponse.json({ error: "échec de l'envoi" }, { status: 502 });
   }
   return NextResponse.json({ ok: true });

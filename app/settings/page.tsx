@@ -9,6 +9,7 @@ import {
   validateThresholds,
 } from "@/lib/settingsStorage";
 import type { Thresholds } from "@/lib/types";
+import styles from "./settings.module.css";
 
 function Field(props: {
   label: string;
@@ -19,19 +20,21 @@ function Field(props: {
   suffix?: string;
 }) {
   return (
-    <label style={{ display: "block", marginBottom: 18 }}>
-      <div style={{ fontWeight: 600 }}>{props.label}</div>
-      <div style={{ fontSize: 14, opacity: 0.7, marginBottom: 6 }}>
-        {props.hint}
-      </div>
-      <input
-        type="number"
-        step={props.step}
-        value={Number.isNaN(props.value) ? "" : props.value}
-        onChange={(e) => props.onChange(parseFloat(e.target.value))}
-        style={{ padding: 8, fontSize: 18, width: 140 }}
-      />
-      {props.suffix && <span style={{ marginLeft: 8 }}>{props.suffix}</span>}
+    <label className={styles.field}>
+      <span className={styles.fieldText}>
+        <span className={styles.label}>{props.label}</span>
+        <span className={styles.hint}>{props.hint}</span>
+      </span>
+      <span className={styles.inputWrap}>
+        <input
+          className={styles.input}
+          type="number"
+          step={props.step}
+          value={Number.isNaN(props.value) ? "" : props.value}
+          onChange={(e) => props.onChange(parseFloat(e.target.value))}
+        />
+        <span className={styles.suffix}>{props.suffix}</span>
+      </span>
     </label>
   );
 }
@@ -79,65 +82,80 @@ function SettingsForm({ initial }: { initial: Thresholds }) {
 
   return (
     <>
-      <Field
-        label="Seuil EAR"
-        hint="Un œil est considéré fermé quand l'EAR passe sous cette valeur."
-        value={t.earThreshold}
-        step={0.01}
-        onChange={(v) => set("earThreshold", v)}
-      />
-      <Field
-        label="Fenêtre du PERCLOS"
-        hint="Durée sur laquelle on mesure la part du temps yeux fermés."
-        value={t.windowSeconds}
-        step={1}
-        suffix="secondes"
-        onChange={(v) => set("windowSeconds", v)}
-      />
-      <Field
-        label="PERCLOS pour DROWSY"
-        hint="Part du temps yeux fermés à partir de laquelle l'état passe à DROWSY."
-        value={Math.round(t.perclosDrowsy * 100)}
-        step={1}
-        suffix="%"
-        onChange={(v) => set("perclosDrowsy", v / 100)}
-      />
-      <Field
-        label="PERCLOS pour SLEEPY"
-        hint="Part du temps yeux fermés à partir de laquelle l'état passe à SLEEPY."
-        value={Math.round(t.perclosSleepy * 100)}
-        step={1}
-        suffix="%"
-        onChange={(v) => set("perclosSleepy", v / 100)}
-      />
-      <Field
-        label="Fermeture continue pour SLEEPY"
-        hint="Durée d'yeux fermés sans interruption qui déclenche SLEEPY."
-        value={t.closedSecondsSleepy}
-        step={1}
-        suffix="secondes"
-        onChange={(v) => set("closedSecondsSleepy", v)}
-      />
+      <section className={styles.card}>
+        <h2 className={styles.cardTitle}>Détection des yeux</h2>
+        <Field
+          label="Seuil EAR"
+          hint="Un œil est considéré fermé quand l'EAR passe sous cette valeur."
+          value={t.earThreshold}
+          step={0.01}
+          onChange={(v) => set("earThreshold", v)}
+        />
+        <hr className={styles.divider} />
+        <Field
+          label="Fenêtre du PERCLOS"
+          hint="Durée sur laquelle on mesure la part du temps yeux fermés."
+          value={t.windowSeconds}
+          step={1}
+          suffix="secondes"
+          onChange={(v) => set("windowSeconds", v)}
+        />
+      </section>
 
-      <div style={{ display: "flex", gap: 12 }}>
+      <section className={styles.card}>
+        <h2 className={styles.cardTitle}>Niveaux d&apos;alerte</h2>
+        <Field
+          label="PERCLOS pour DROWSY"
+          hint="Part du temps yeux fermés à partir de laquelle l'état passe à DROWSY."
+          value={Math.round(t.perclosDrowsy * 100)}
+          step={1}
+          suffix="%"
+          onChange={(v) => set("perclosDrowsy", v / 100)}
+        />
+        <hr className={styles.divider} />
+        <Field
+          label="PERCLOS pour SLEEPY"
+          hint="Part du temps yeux fermés à partir de laquelle l'état passe à SLEEPY."
+          value={Math.round(t.perclosSleepy * 100)}
+          step={1}
+          suffix="%"
+          onChange={(v) => set("perclosSleepy", v / 100)}
+        />
+        <hr className={styles.divider} />
+        <Field
+          label="Fermeture continue pour SLEEPY"
+          hint="Durée d'yeux fermés sans interruption qui déclenche SLEEPY."
+          value={t.closedSecondsSleepy}
+          step={1}
+          suffix="secondes"
+          onChange={(v) => set("closedSecondsSleepy", v)}
+        />
+      </section>
+
+      <div className={styles.actions}>
         <button
+          type="button"
           onClick={onSave}
           disabled={busy}
-          style={{ padding: "10px 18px", fontSize: 16 }}
+          className={styles.primary}
         >
           Enregistrer
         </button>
         <button
+          type="button"
           onClick={onReset}
           disabled={busy}
-          style={{ padding: "10px 18px", fontSize: 16 }}
+          className={styles.secondary}
         >
           Valeurs par défaut
         </button>
       </div>
 
       {message && (
-        <p style={{ marginTop: 16, color: isError ? "#dc2626" : "#16a34a" }}>
+        <p
+          role="status"
+          className={`${styles.msg} ${isError ? styles.error : styles.ok}`}
+        >
           {message}
         </p>
       )}
@@ -159,11 +177,16 @@ export default function SettingsPage() {
   }, []);
 
   return (
-    <main style={{ padding: 24, maxWidth: 520 }}>
-      <h1>Réglages de détection</h1>
-      <p>
-        <Link href="/monitor">← Retour à la surveillance</Link>
-      </p>
+    <main className={styles.page}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>Réglages</h1>
+        <p className={styles.subtitle}>
+          Ajuste la sensibilité de la détection de somnolence.
+        </p>
+        <Link href="/monitor" className={styles.back}>
+          ← Retour à la surveillance
+        </Link>
+      </header>
       {initial ? <SettingsForm initial={initial} /> : <p>Chargement...</p>}
     </main>
   );

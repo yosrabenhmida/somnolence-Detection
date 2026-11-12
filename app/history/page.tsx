@@ -2,33 +2,34 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
-import AccountMenu from "@/components/AccountMenu";
+import { listEpisodes } from "@/lib/episodes";
+import EpisodeList from "@/components/EpisodeList";
+import styles from "./history.module.css";
 
 async function HistoryContent() {
   const session = await getSession();
   if (!session) redirect("/auth/login");
+  const episodes = await listEpisodes(session.userId);
 
   return (
-    <>
-      <AccountMenu />
-      <main style={{ padding: "5rem 1.5rem 2rem", color: "#f2f2f2" }}>
-        <h1>Historique</h1>
-        <p>Les épisodes de somnolence apparaîtront ici.</p>
-        <Link href="/monitor">← Retour à la surveillance</Link>
-      </main>
-    </>
+    <main className={styles.page}>
+      <header>
+        <h1 className={styles.title}>Historique</h1>
+        <p className={styles.subtitle}>
+          Les moments où la somnolence a été détectée.
+        </p>
+        <Link href="/monitor" className={styles.back}>
+          ← Retour à la surveillance
+        </Link>
+      </header>
+      <EpisodeList episodes={episodes} />
+    </main>
   );
 }
 
 export default function HistoryPage() {
   return (
-    <Suspense
-      fallback={
-        <main style={{ padding: "5rem 1.5rem", color: "#f2f2f2" }}>
-          Chargement…
-        </main>
-      }
-    >
+    <Suspense fallback={<main className={styles.page}>Chargement…</main>}>
       <HistoryContent />
     </Suspense>
   );

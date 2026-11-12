@@ -1,5 +1,13 @@
 import { Suspense } from "react";
-import AccountMenu from "@/components/AccountMenu";
+import { Space_Grotesk } from "next/font/google";
+import SideRail from "@/components/SideRail";
+import styles from "./monitor.module.css";
+
+const display = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-display",
+});
 
 export default function MonitorLayout({
   children,
@@ -7,11 +15,11 @@ export default function MonitorLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <Suspense fallback={null}>
-        <AccountMenu />
+    <div className={`${styles.shell} ${display.variable}`}>
+      <Suspense fallback={<div className={styles.railPlaceholder} />}>
+        <SideRail active="monitor" />
       </Suspense>
-      {children}
-    </>
+      <div className={styles.content}>{children}</div>
+    </div>
   );
 }

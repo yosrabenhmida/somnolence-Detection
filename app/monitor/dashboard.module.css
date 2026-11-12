@@ -1,0 +1,249 @@
+.page {
+  box-sizing: border-box;
+  min-height: 100vh;
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.live {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: #0f141b;
+  border: 1px solid #1d2530;
+  color: #c9d3df;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.75fr) minmax(320px, 1fr);
+  gap: 24px;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ringCard {
+  flex: 1;
+  padding: 24px;
+  border-radius: 28px;
+  background: #0f141b;
+  border: 1px solid #1d2530;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.ring {
+  position: relative;
+  width: 230px;
+  height: 230px;
+}
+
+.ringCenter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ringValue {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ringLabel {
+  font-size: 17px;
+  font-weight: 600;
+  color: #98a6b8;
+}
+
+.ack {
+  min-height: 84px;
+  border: none;
+  border-radius: 22px;
+  background: #2dd4bf;
+  color: #031412;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.ack:hover {
+  background: #5eead4;
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+}
+
+.button {
+  flex: 1;
+  min-height: 80px;
+  padding: 0 16px;
+  border-radius: 22px;
+  border: 1px solid #2a3441;
+  background: #0f141b;
+  color: #eaf0f7;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.button:hover {
+  background: #151b24;
+}
+
+.warn {
+  margin: 0;
+  color: #fbbf24;
+  font-size: 16px;
+}
+
+.msg {
+  margin: 0;
+  color: #eaf0f7;
+  font-size: 17px;
+}
+
+.chain {
+  list-style: none;
+  margin: 0;
+  padding: 0 16px;
+  min-height: 64px;
+  border-radius: 20px;
+  background: #0f141b;
+  border: 1px solid #1d2530;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: #98a6b8;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.step i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #2a3441;
+}
+
+.on {
+  color: #eaf0f7;
+}
+
+.on i {
+  background: var(--accent);
+}
+
+.hint {
+  margin: 0;
+  color: #98a6b8;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 20px 16px;
+  }
+  .title {
+    font-size: 24px;
+  }
+  .actions {
+    flex-direction: column;
+  }
+}
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 20px;
+  border-radius: 16px;
+  background: #3a2a06;
+  border: 1px solid #f59e0b;
+  color: #fde68a;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.bannerButton {
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 12px;
+  border: 1px solid #f59e0b;
+  background: transparent;
+  color: #fde68a;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bannerButton:hover {
+  background: #4a3508;
+}

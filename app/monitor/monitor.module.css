@@ -1,0 +1,24 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+  background: #070a0f;
+  color: #eaf0f7;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.railPlaceholder {
+  width: 96px;
+  flex-shrink: 0;
+  background: #0a0e14;
+  border-right: 1px solid #1d2530;
+}
+
+@media (max-width: 700px) {
+  .railPlaceholder {
+    width: 64px;
+  }
+}
