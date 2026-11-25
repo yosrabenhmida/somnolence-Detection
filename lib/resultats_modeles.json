@@ -1,0 +1,88 @@
+{
+  "dataset": {
+    "lignes": 2000,
+    "colonnes": ["ear_moyen", "mouvement_pct", "perclos_pct", "seuil_alerte"],
+    "simule": true
+  },
+  "classes": {
+    "0": "NORMAL",
+    "15": "DROWSY",
+    "30": "SLEEPY"
+  },
+  "correlation": {
+    "ear_moyen": {
+      "ear_moyen": 1.0,
+      "mouvement_pct": -0.275,
+      "perclos_pct": -0.532,
+      "seuil_alerte": -0.507
+    },
+    "mouvement_pct": {
+      "ear_moyen": -0.275,
+      "mouvement_pct": 1.0,
+      "perclos_pct": 0.466,
+      "seuil_alerte": 0.441
+    },
+    "perclos_pct": {
+      "ear_moyen": -0.532,
+      "mouvement_pct": 0.466,
+      "perclos_pct": 1.0,
+      "seuil_alerte": 0.89
+    },
+    "seuil_alerte": {
+      "ear_moyen": -0.507,
+      "mouvement_pct": 0.441,
+      "perclos_pct": 0.89,
+      "seuil_alerte": 1.0
+    }
+  },
+  "modeles": [
+    {
+      "nom": "KNN",
+      "precision": 0.882,
+      "f1_macro": 0.862,
+      "mae": 1.762,
+      "r2": 0.802,
+      "matrice_confusion": [
+        [221, 18, 0],
+        [17, 69, 5],
+        [0, 7, 63]
+      ]
+    },
+    {
+      "nom": "Arbre de décision",
+      "precision": 0.897,
+      "f1_macro": 0.871,
+      "mae": 1.538,
+      "r2": 0.827,
+      "matrice_confusion": [
+        [232, 7, 0],
+        [21, 68, 2],
+        [0, 11, 59]
+      ]
+    }
+  ],
+  "arbre": {
+    "variable": "perclos_pct",
+    "seuil": 16.75,
+    "si_inferieur_ou_egal": {
+      "variable": "perclos_pct",
+      "seuil": 12.35,
+      "si_inferieur_ou_egal": {
+        "classe": 0
+      },
+      "sinon": {
+        "classe": 0
+      }
+    },
+    "sinon": {
+      "variable": "perclos_pct",
+      "seuil": 32.95,
+      "si_inferieur_ou_egal": {
+        "classe": 15
+      },
+      "sinon": {
+        "classe": 30
+      }
+    }
+  }
+}
